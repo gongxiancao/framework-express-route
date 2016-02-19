@@ -1,0 +1,23 @@
+{
+  "name": "framework-express-route",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gongxiancao/framework-express-route.git"
+  },
+  "author": "gongxiancao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gongxiancao/framework-express-route/issues"
+  },
+  "homepage": "https://github.com/gongxiancao/framework-express-route#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "lodash": "^4.5.0"
+  }
+}
