@@ -33,7 +33,7 @@ module.exports = function (done) {
       self.express[method](pattern, function (req, res) {
         var context = {request: req, response: res};
 
-        async.series(policies, function (policy, done) {
+        async.eachSeries(policies, function (policy, done) {
           policy.call(context, req, res, done);
         }, function (err) {
           if(!err) {
