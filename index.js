@@ -4,6 +4,11 @@ var _ = require('lodash'),
 module.exports = function (done) {
   var self = this;
   var routes = self.config.routes;
+
+  _.each((self.config.http || {}).middlewares || [], function (middleware) {
+    self.express.use(middleware);
+  });
+
   _.each(self.config.routes, function (action, key) {
     var index = key.indexOf(' ');
     var keyParts = [key.slice(0, index), key.slice(index + 1)];
@@ -42,7 +47,6 @@ module.exports = function (done) {
         });
       });
     }
-
   });
   process.nextTick(done);
 };
