@@ -1,7 +1,7 @@
 var _ = require('lodash'),
   async = require('async');
 
-module.exports = function (done) {
+function lift (done) {
   var self = this;
   var routes = self.config.routes;
 
@@ -48,5 +48,15 @@ module.exports = function (done) {
       });
     }
   });
-  process.nextTick(done);
+  self.expressServer = self.express.listen(self.config.port, done);
+};
+
+function lower (done) {
+  this.expressServer.close();
+  done();
+}
+
+module.exports = {
+  lift: lift,
+  lower: lower
 };
