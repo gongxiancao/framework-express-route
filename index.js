@@ -6,7 +6,7 @@ function lift (done) {
   var routes = self.config.routes;
 
   _.each((self.config.http || {}).middlewares || [], function (middleware) {
-    self.express.use(middleware);
+    self.express.use(middleware());
   });
 
   _.each(self.config.routes, function (action, key) {
