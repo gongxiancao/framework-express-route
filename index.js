@@ -6,7 +6,7 @@ function lift (done) {
   var routes = self.config.routes;
 
   _.each((self.config.http || {}).middlewares || [], function (middleware) {
-    self.express.use(middleware());
+    self.expressApp.use(middleware());
   });
 
   _.each(self.config.routes, function (action, key) {
@@ -29,13 +29,13 @@ function lift (done) {
     }
 
     if(!self.controllerActionPolicies) {
-      self.express[method](pattern, function (req, res) {
+      self.expressApp[method](pattern, function (req, res) {
         var context = {request: req, response: res};
         actionMethod.call(context, req, res);
       });
     } else {
       var policies = self.controllerActionPolicies[controllerName + '.' + actionMethodName];
-      self.express[method](pattern, function (req, res) {
+      self.expressApp[method](pattern, function (req, res) {
         var context = {request: req, response: res};
 
         async.eachSeries(policies, function (policy, done) {
@@ -48,7 +48,7 @@ function lift (done) {
       });
     }
   });
-  self.expressServer = self.express.listen(self.config.port, done);
+  self.expressServer = self.expressApp.listen(self.config.port, done);
 };
 
 function lower (done) {
