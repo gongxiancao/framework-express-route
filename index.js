@@ -22,10 +22,13 @@ function lift (done) {
     var actionParts = action.split('.');
     var controllerName = actionParts[0];
     var controller = self.controllers[controllerName];
+    if(!controller) {
+      throw new Error('undefined controller: ' + controllerName);
+    }
     var actionMethodName = actionParts[1];
     var actionMethod = controller[actionMethodName];
     if(!actionMethod) {
-      throw new Error('undefined action method:' + action);
+      throw new Error('undefined action method: ' + action);
     }
 
     if(!self.controllerActionPolicies) {
