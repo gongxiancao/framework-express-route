@@ -51,7 +51,7 @@ function lift (done) {
       });
     }
   });
-  self.expressServer = self.expressApp.listen(self.config.port, done);
+  self.expressServer = self.expressApp.listen(self.config.port, self.config.host, done);
 };
 
 function lower (done) {
