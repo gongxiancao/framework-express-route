@@ -6,8 +6,34 @@ function lift (done) {
   var self = this;
   var routes = self.config.routes;
 
+  // support middlewares like below:
+  // [
+  //   function () {
+  //     return framework.express.static(framework.config.paths.public || '../.tmp/public');
+  //   },
+  //   ['/files', function () {
+  //     return framework.express.static(framework.config.paths.files || '../../files');
+  //   }],
+  //   bodyParser.json.bind(bodyParser),
+  //   bodyParser.urlencoded.bind(bodyParser, { extended: false }),
+  //   multipart
+  // ]
+  // when a middleware is array, invoke the function in the array, and then apply app.use with the array as arguments 
   _.each((self.config.http || {}).middlewares || [], function (middleware) {
-    self.expressApp.use(middleware());
+    if(_.isFunction(middleware)) {
+      self.expressApp.use(middleware());
+      return;
+    }
+    if(_.isArray(middleware)) {
+      middleware = _.map(middleware, function (arg) {
+        if(_.isFunction(arg)) {
+          return arg();
+        }
+        return arg;
+      });
+      console.log('ddddd', middleware);
+      self.expressApp.use.apply(self.expressApp, middleware);
+    }
   });
 
   _.each(self.config.routes, function (action, key) {
