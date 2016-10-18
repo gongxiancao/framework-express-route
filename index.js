@@ -31,7 +31,6 @@ function lift (done) {
         }
         return arg;
       });
-      console.log('ddddd', middleware);
       self.expressApp.use.apply(self.expressApp, middleware);
     }
   });
@@ -78,6 +77,9 @@ function lift (done) {
       });
     }
   });
+  if((self.config.http || {}).error) {
+    self.expressApp.use(self.config.http.error);
+  }
   self.expressServer = self.expressApp.listen(self.config.port, self.config.host, done);
 };
 
